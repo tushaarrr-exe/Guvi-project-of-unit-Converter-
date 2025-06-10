@@ -1,75 +1,35 @@
-import logic.Converter; import db.DatabaseManager;
+# 📐 Smart Unit Converter
 
-import javax.swing.; import java.awt.; import java.awt.event.ActionEvent; import java.sql.SQLException;
+A GUI-based Java application for converting between Length, Weight, and Temperature units with robust error handling and conversion history using SQLite.
 
-public class MainFrame extends JFrame { private JComboBox<String> categoryBox, fromUnitBox, toUnitBox; private JTextField inputField; private JLabel resultLabel; private JButton convertBtn, historyBtn;
+---
 
-public MainFrame() {
-    setTitle("Unit Converter");
-    setSize(500, 300);
-    setDefaultCloseOperation(EXIT_ON_CLOSE);
-    setLayout(new GridLayout(6, 2));
+## 🧠 Project Summary
 
-    categoryBox = new JComboBox<>(new String[]{"Length", "Weight", "Temperature"});
-    fromUnitBox = new JComboBox<>();
-    toUnitBox = new JComboBox<>();
-    inputField = new JTextField();
-    resultLabel = new JLabel("Result: ");
-    convertBtn = new JButton("Convert");
-    historyBtn = new JButton("View History");
+This project demonstrates the implementation of a fully functional GUI-based Unit Converter application. It applies concepts of modular programming, event handling, data validation, and database integration, fulfilling academic guidelines for a complete software engineering project.
 
-    categoryBox.addActionListener(e -> updateUnits());
-    convertBtn.addActionListener(this::convert);
-    historyBtn.addActionListener(e -> viewHistory());
+---
 
-    add(new JLabel("Category")); add(categoryBox);
-    add(new JLabel("From Unit")); add(fromUnitBox);
-    add(new JLabel("To Unit")); add(toUnitBox);
-    add(new JLabel("Value")); add(inputField);
-    add(convertBtn); add(historyBtn);
-    add(resultLabel);
+## ✅ Features
 
-    updateUnits();
-    setVisible(true);
-}
+- 🔁 **Convert Units**: Between meters, kilograms, Celsius, Fahrenheit, and more.
+- 🔎 **Conversion History**: Recent 10 conversions stored using SQLite.
+- ⚠️ **Error Handling**: Gracefully handles invalid inputs or missing data.
+- 🧩 **Modular Design**: Logic, database, and GUI separated into clean packages.
+- 🖱️ **Interactive UI**: User-friendly interface with real-time processing.
+- ✅ **Client-side Validation**: Ensures only numeric inputs are processed.
 
-private void updateUnits() {
-    String category = (String) categoryBox.getSelectedItem();
-    fromUnitBox.removeAllItems();
-    toUnitBox.removeAllItems();
-    for (String unit : Converter.getUnitsForCategory(category)) {
-        fromUnitBox.addItem(unit);
-        toUnitBox.addItem(unit);
-    }
-}
+---
 
-private void convert(ActionEvent e) {
-    try {
-        String category = (String) categoryBox.getSelectedItem();
-        String from = (String) fromUnitBox.getSelectedItem();
-        String to = (String) toUnitBox.getSelectedItem();
-        double input = Double.parseDouble(inputField.getText());
-        double result = Converter.convert(category, from, to, input);
-        resultLabel.setText("Result: " + result);
-        DatabaseManager.insertConversion(category, from, to, input, result);
-    } catch (NumberFormatException ex) {
-        JOptionPane.showMessageDialog(this, "Invalid input. Enter a number.");
-    } catch (SQLException ex) {
-        JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage());
-    }
-}
+## 🛠 Technologies Used
 
-private void viewHistory() {
-    try {
-        String history = DatabaseManager.getHistory();
-        JOptionPane.showMessageDialog(this, history);
-    } catch (SQLException ex) {
-        JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage());
-    }
-}
+| Component     | Technology     |
+|---------------|----------------|
+| Programming   | Java (JDK 8+)  |
+| GUI           | Java Swing     |
+| Database      | SQLite (via JDBC) |
+| IDE           | IntelliJ / Eclipse / VS Code |
 
-public static void main(String[] args) {
-    new MainFrame();
-}
+---
 
-}
+## 📁 Project Structure
